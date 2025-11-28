@@ -88,7 +88,6 @@ export function decrypt(
   ]).toString("utf8");
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getOrCreateUserDataKey(
   userId: string,
   supabase: any
