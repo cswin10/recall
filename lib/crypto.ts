@@ -88,22 +88,10 @@ export function decrypt(
   ]).toString("utf8");
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getOrCreateUserDataKey(
   userId: string,
-  supabase: {
-    from: (table: string) => {
-      select: (columns: string) => {
-        eq: (column: string, value: string) => {
-          single: () => Promise<{ data: { wrapped_data_key: string } | null; error: Error | null }>;
-        };
-      };
-      insert: (data: object) => {
-        select: (columns: string) => {
-          single: () => Promise<{ data: { wrapped_data_key: string } | null; error: Error | null }>;
-        };
-      };
-    };
-  }
+  supabase: any
 ): Promise<Buffer> {
   // Try to get existing key
   const { data: existingKey, error: fetchError } = await supabase
