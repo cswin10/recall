@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Loader2, Mail, Sparkles } from "lucide-react";
@@ -16,6 +16,14 @@ export default function SignInForm() {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/app";
+  const urlError = searchParams.get("error");
+
+  // Show URL error on mount
+  useEffect(() => {
+    if (urlError) {
+      setMessage({ type: "error", text: urlError });
+    }
+  }, [urlError]);
 
   const supabase = createClient();
 
