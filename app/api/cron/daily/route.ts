@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get unique user IDs
-    const userIds = [...new Set(usersWithEntries.map((u) => u.user_id))];
+    const userIds: string[] = Array.from(new Set(usersWithEntries.map((u: { user_id: string }) => u.user_id)));
 
     let summariesGenerated = 0;
 
