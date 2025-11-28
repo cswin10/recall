@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Offline - Recall</title>
+  <title>Offline - Tellit</title>
   <style>
     * {
       margin: 0;
@@ -18,61 +18,83 @@
       justify-content: center;
       min-height: 100vh;
       padding: 2rem;
-      background: linear-gradient(to bottom, #ffffff, #f5f5f5);
-      color: #1a1a1a;
+      background: linear-gradient(to bottom, #f0f9ff, #fefce8);
+      color: #1e3a5f;
       text-align: center;
     }
     .logo {
       width: 80px;
       height: 80px;
-      background: #1a1a1a;
-      border-radius: 16px;
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
     }
-    .logo span {
+    .logo svg {
+      width: 40px;
+      height: 40px;
       color: white;
-      font-size: 2.5rem;
-      font-weight: bold;
     }
     h1 {
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
+      color: #0c4a6e;
     }
     p {
-      color: #666;
+      color: #64748b;
       margin-bottom: 1.5rem;
       max-width: 400px;
     }
     button {
-      background: #1a1a1a;
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 1rem;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
     }
     button:hover {
-      opacity: 0.9;
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+    }
+    button:active {
+      transform: scale(0.98);
     }
     .note {
       margin-top: 2rem;
       font-size: 0.875rem;
-      color: #999;
+      color: #94a3b8;
+    }
+    .accent {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #facc15;
+      border-radius: 50%;
+      margin: 0 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
     }
   </style>
 </head>
 <body>
   <div class="logo">
-    <span>R</span>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z" />
+    </svg>
   </div>
-  <h1>You're offline</h1>
+  <h1>You're offline <span class="accent"></span></h1>
   <p>
-    Recall needs an internet connection to record and sync your journal entries.
+    Tellit needs an internet connection to record and sync your journal entries.
     Please check your connection and try again.
   </p>
   <button onclick="window.location.reload()">Try again</button>

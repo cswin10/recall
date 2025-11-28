@@ -6,16 +6,16 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Recall - Speech-First Journal",
-  description: "Speak your thoughts. Recall your life. A private, encrypted voice journal that turns your words into searchable memories.",
+  title: "Tellit - Voice Journal",
+  description: "Speak your thoughts. Tell your story. A private, encrypted voice journal that turns your words into searchable memories.",
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "Recall - Speech-First Journal",
-    description: "Speak your thoughts. Recall your life.",
+    title: "Tellit - Voice Journal",
+    description: "Speak your thoughts. Tell your story.",
     type: "website",
   },
 };
@@ -25,7 +25,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#ffffff",
+  themeColor: "#0ea5e9",
 };
 
 export default function RootLayout({

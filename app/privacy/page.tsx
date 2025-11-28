@@ -1,24 +1,29 @@
 import Link from "next/link";
-import { ArrowLeft, Shield, Lock, Eye, Database } from "lucide-react";
+import { ArrowLeft, Shield, Lock, Eye, Database, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50/50 via-background to-amber-50/20">
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Link href="/">
-          <Button variant="ghost" className="mb-8">
+          <Button variant="ghost" className="mb-8 hover:bg-primary/10 transition-all duration-200 hover:scale-105">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to home
           </Button>
         </Link>
 
-        <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-md">
+            <Sparkles className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <h1 className="text-3xl font-bold gradient-text">Privacy Policy</h1>
+        </div>
         <p className="text-muted-foreground mb-8">Last updated: {new Date().toLocaleDateString()}</p>
 
         <div className="prose prose-neutral max-w-none">
           {/* TL;DR */}
-          <div className="bg-primary/5 rounded-lg p-6 mb-8 not-prose">
+          <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-6 mb-8 not-prose border-2 border-primary/10">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" />
               The Short Version
@@ -36,7 +41,7 @@ export default function PrivacyPage() {
           {/* Encryption */}
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Lock className="h-5 w-5" />
+              <Lock className="h-5 w-5 text-amber-600" />
               How Your Data is Encrypted
             </h2>
             <p>
@@ -58,7 +63,7 @@ export default function PrivacyPage() {
           {/* What we collect */}
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Database className="h-5 w-5" />
+              <Database className="h-5 w-5 text-primary" />
               What We Store
             </h2>
             <ul className="list-disc list-inside space-y-2">
@@ -73,7 +78,7 @@ export default function PrivacyPage() {
           {/* Third parties */}
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Eye className="h-5 w-5" />
+              <Eye className="h-5 w-5 text-amber-600" />
               Third-Party Services
             </h2>
             <h3 className="font-semibold mt-4">OpenAI</h3>
@@ -134,14 +139,15 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-semibold mb-4">Contact</h2>
             <p>
               If you have questions about this privacy policy or how your data is handled,
-              please contact us at privacy@recall.app.
+              please contact us at privacy@tellit.app.
             </p>
           </section>
         </div>
 
-        <div className="border-t pt-8 mt-8">
-          <Link href="/" className="text-primary hover:underline">
-            ← Return to Recall
+        <div className="border-t border-primary/10 pt-8 mt-8">
+          <Link href="/" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors group">
+            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Return to Tellit
           </Link>
         </div>
       </div>
