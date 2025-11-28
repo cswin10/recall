@@ -50,16 +50,8 @@
   ],
   "crons": [
     {
-      "path": "/api/cron/daily",
+      "path": "/api/cron/summaries",
       "schedule": "0 5 * * *"
-    },
-    {
-      "path": "/api/cron/weekly",
-      "schedule": "0 6 * * 1"
-    },
-    {
-      "path": "/api/cron/monthly",
-      "schedule": "0 7 1 * *"
     }
   ]
 }
