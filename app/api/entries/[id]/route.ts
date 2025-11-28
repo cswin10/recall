@@ -78,9 +78,10 @@ export async function GET(
     // Extract tags
     const tags: Tag[] = [];
     if (entry.entry_tags && Array.isArray(entry.entry_tags)) {
-      for (const et of entry.entry_tags) {
+      for (const et of entry.entry_tags as Array<{ tags: unknown }>) {
         if (et.tags) {
-          tags.push(et.tags as Tag);
+          const tag = et.tags as { id: string; user_id: string; name: string; created_at: string };
+          tags.push(tag);
         }
       }
     }

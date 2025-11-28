@@ -17,7 +17,12 @@ export async function transcribeAudio(audioBuffer: Buffer, mimeType: string): Pr
   };
 
   const extension = extensionMap[mimeType] || "webm";
-  const file = new File([audioBuffer], `audio.${extension}`, { type: mimeType });
+  // Convert Buffer to ArrayBuffer for File constructor compatibility
+  const arrayBuffer = audioBuffer.buffer.slice(
+    audioBuffer.byteOffset,
+    audioBuffer.byteOffset + audioBuffer.byteLength
+  ) as ArrayBuffer;
+  const file = new File([arrayBuffer], `audio.${extension}`, { type: mimeType });
 
   const response = await openai.audio.transcriptions.create({
     file,

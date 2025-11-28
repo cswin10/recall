@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
         if (entryIds && entryIds.length > 0) {
           query = query.in(
             "id",
-            entryIds.map((e) => e.entry_id)
+            entryIds.map((e: { entry_id: string }) => e.entry_id)
           );
         } else {
           // No entries with this tag
@@ -138,7 +138,7 @@ export async function GET(request: NextRequest) {
       // Extract tags
       const tags: Tag[] = [];
       if (entry.entry_tags && Array.isArray(entry.entry_tags)) {
-        for (const et of entry.entry_tags) {
+        for (const et of entry.entry_tags as unknown as Array<{ tags: { id: string; name: string } | null }>) {
           if (et.tags) {
             tags.push({
               id: et.tags.id,
