@@ -1,11 +1,11 @@
 {
-  "name": "Recall - Speech-First Journal",
-  "short_name": "Recall",
-  "description": "Speak your thoughts. Recall your life.",
+  "name": "Tellit - Voice Journal",
+  "short_name": "Tellit",
+  "description": "Speak your thoughts. Tell your story.",
   "start_url": "/app",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#f0f9ff",
+  "theme_color": "#0ea5e9",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -25,5 +25,5 @@
   "lang": "en",
   "dir": "ltr",
   "scope": "/",
-  "id": "recall-journal"
+  "id": "tellit-journal"
 }

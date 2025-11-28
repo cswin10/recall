@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     const zip = new JSZip();
 
     // Add README
-    const readme = `# Recall Journal Export - ${format(referenceDate, "MMMM yyyy")}
+    const readme = `# Tellit Journal Export - ${format(referenceDate, "MMMM yyyy")}
 
 Exported on: ${new Date().toISOString()}
 
