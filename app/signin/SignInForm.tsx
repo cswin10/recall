@@ -61,13 +61,13 @@ export default function SignInForm() {
         <CardTitle className="text-2xl">
           Welcome to <span className="gradient-text">Tellit</span>
         </CardTitle>
-        <CardDescription>Sign in to start your voice journal</CardDescription>
+        <CardDescription>Sign in or create an account</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Magic link form */}
         <form onSubmit={handleMagicLink} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email address</Label>
             <Input
               id="email"
               type="email"
@@ -78,6 +78,9 @@ export default function SignInForm() {
               required
               className="h-12 transition-all duration-200 focus:scale-[1.01] focus:shadow-md"
             />
+            <p className="text-xs text-muted-foreground">
+              We&apos;ll send you a magic link to sign in. No password needed!
+            </p>
           </div>
           <Button
             type="submit"
@@ -89,7 +92,7 @@ export default function SignInForm() {
             ) : (
               <Mail className="mr-2 h-5 w-5" />
             )}
-            Send magic link
+            Continue with Email
           </Button>
         </form>
 

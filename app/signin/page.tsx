@@ -15,7 +15,7 @@ function SignInLoading() {
         <CardTitle className="text-2xl">
           Welcome to <span className="gradient-text">Tellit</span>
         </CardTitle>
-        <CardDescription>Sign in to start your voice journal</CardDescription>
+        <CardDescription>Sign in or create an account</CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-center py-8">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
