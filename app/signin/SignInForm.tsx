@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Loader2, Mail, Sparkles } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Loader2, LogIn, UserPlus, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,12 +11,19 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function SignInForm() {
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
   const searchParams = useSearchParams();
+  const router = useRouter();
   const redirect = searchParams.get("redirect") || "/app";
   const urlError = searchParams.get("error");
+
+  const supabase = createClient();
 
   // Show URL error on mount
   useEffect(() => {
@@ -25,29 +32,66 @@ export default function SignInForm() {
     }
   }, [urlError]);
 
-  const supabase = createClient();
-
-  const handleMagicLink = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !password) return;
+
+    // Validate passwords match for sign up
+    if (isSignUp && password !== confirmPassword) {
+      setMessage({ type: "error", text: "Passwords do not match" });
+      return;
+    }
+
+    // Validate password length
+    if (isSignUp && password.length < 6) {
+      setMessage({ type: "error", text: "Password must be at least 6 characters" });
+      return;
+    }
 
     setIsLoading(true);
     setMessage(null);
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${redirect}`,
-      },
-    });
+    if (isSignUp) {
+      // Sign up
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${redirect}`,
+        },
+      });
 
-    setIsLoading(false);
+      setIsLoading(false);
 
-    if (error) {
-      setMessage({ type: "error", text: error.message });
+      if (error) {
+        setMessage({ type: "error", text: error.message });
+      } else {
+        setMessage({ type: "success", text: "Account created! Check your email to confirm." });
+      }
     } else {
-      setMessage({ type: "success", text: "Check your email for a magic link!" });
+      // Sign in
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      setIsLoading(false);
+
+      if (error) {
+        setMessage({ type: "error", text: error.message });
+      } else {
+        // Redirect on successful sign in
+        router.push(redirect);
+        router.refresh();
+      }
     }
+  };
+
+  const toggleMode = () => {
+    setIsSignUp(!isSignUp);
+    setMessage(null);
+    setPassword("");
+    setConfirmPassword("");
   };
 
   return (
@@ -59,13 +103,14 @@ export default function SignInForm() {
           </div>
         </Link>
         <CardTitle className="text-2xl">
-          Welcome to <span className="gradient-text">Tellit</span>
+          {isSignUp ? "Create an account" : "Welcome back"}
         </CardTitle>
-        <CardDescription>Sign in to start your voice journal</CardDescription>
+        <CardDescription>
+          {isSignUp ? "Start your voice journal journey" : "Sign in to your voice journal"}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Magic link form */}
-        <form onSubmit={handleMagicLink} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -79,6 +124,39 @@ export default function SignInForm() {
               className="h-12 transition-all duration-200 focus:scale-[1.01] focus:shadow-md"
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder={isSignUp ? "Create a password" : "Enter your password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading}
+              required
+              minLength={6}
+              className="h-12 transition-all duration-200 focus:scale-[1.01] focus:shadow-md"
+            />
+          </div>
+
+          {isSignUp && (
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={isLoading}
+                required
+                minLength={6}
+                className="h-12 transition-all duration-200 focus:scale-[1.01] focus:shadow-md"
+              />
+            </div>
+          )}
+
           <Button
             type="submit"
             className="w-full h-12 btn-interactive btn-glow bg-gradient-to-r from-primary to-primary/90"
@@ -86,10 +164,12 @@ export default function SignInForm() {
           >
             {isLoading ? (
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            ) : isSignUp ? (
+              <UserPlus className="mr-2 h-5 w-5" />
             ) : (
-              <Mail className="mr-2 h-5 w-5" />
+              <LogIn className="mr-2 h-5 w-5" />
             )}
-            Send magic link
+            {isSignUp ? "Create Account" : "Sign In"}
           </Button>
         </form>
 
@@ -107,11 +187,26 @@ export default function SignInForm() {
           </div>
         )}
 
+        {/* Toggle sign in / sign up */}
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={toggleMode}
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            {isSignUp ? (
+              <>Already have an account? <span className="font-medium text-primary">Sign in</span></>
+            ) : (
+              <>Don&apos;t have an account? <span className="font-medium text-primary">Sign up</span></>
+            )}
+          </button>
+        </div>
+
         {/* Privacy notice */}
         <p className="text-xs text-center text-muted-foreground">
-          By signing in, you agree to our{" "}
+          By continuing, you agree to our{" "}
           <Link href="/terms" className="underline hover:text-primary transition-colors">
-            Terms of Service
+            Terms
           </Link>{" "}
           and{" "}
           <Link href="/privacy" className="underline hover:text-primary transition-colors">
